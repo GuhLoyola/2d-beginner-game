@@ -1,12 +1,14 @@
-using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+     public InputAction MoveAction;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        MoveAction.Enable();
     }
 
     // Update is called once per frame
@@ -17,30 +19,9 @@ public class PlayerController : MonoBehaviour
 
     private void HandleCharacterMovement()
     {
-        float horizontal = 0.0f;
-        float vertical = 0.0f;
+        Vector2 move = MoveAction.ReadValue<Vector2>();
+        Vector2 position = (Vector2)transform.position + move * 3.0f * Time.deltaTime;
 
-        if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed)
-        {
-            horizontal = -0.1f;
-        }
-        else if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
-        {
-            horizontal = 0.1f;
-        }
-
-        if (Keyboard.current.upArrowKey.isPressed || Keyboard.current.wKey.isPressed)
-        {
-            vertical = 0.1f;
-        }
-        else if (Keyboard.current.downArrowKey.isPressed || Keyboard.current.sKey.isPressed)
-        {
-            vertical = -0.1f;
-        }
-
-        Vector2 position = transform.position;
-        position.x = position.x + 0.1f * horizontal;
-        position.y = position.y + 0.1f * vertical;
         transform.position = position;
     }
 }
